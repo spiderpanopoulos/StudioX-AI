@@ -1,5 +1,6 @@
 
 import streamlit as st
+from src.chat import show_chat
 
 # Page configuration
 st.set_page_config(
@@ -59,8 +60,7 @@ elif page == "Explore":
 
 # AI Creator
 elif page == "AI Creator":
-    st.title("🤖 AI Creator")
-    st.write("Create Roblox development ideas with AI.")
+    show_chat()
 
 # Script Lab
 elif page == "Script Lab":
