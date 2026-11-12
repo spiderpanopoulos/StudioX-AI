@@ -2,6 +2,30 @@ import streamlit as st
 
 
 def show_chat():
+    st.markdown(
+        """
+        <style>
+        div[data-testid="stChatInput"] textarea {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            caret-color: #ffffff !important;
+            background-color: #151c2c !important;
+        }
+
+        div[data-testid="stChatInput"] textarea::placeholder {
+            color: #aab4c5 !important;
+            -webkit-text-fill-color: #aab4c5 !important;
+            opacity: 1 !important;
+        }
+
+        div[data-testid="stChatInput"] {
+            border-color: #52617a !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
     st.title("AI Creator")
     st.caption("Your Roblox development assistant")
 
