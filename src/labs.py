@@ -49,6 +49,10 @@ end)
 }
 
 
+def _reset_script(template_name):
+    st.session_state[f"script_editor_{template_name}"] = SCRIPT_TEMPLATES[template_name]
+
+
 def show_script_lab():
     st.title("⌘ Script Lab")
     st.caption("Start from a template, edit Luau and export your script.")
@@ -70,9 +74,12 @@ def show_script_lab():
             use_container_width=True,
         )
     with col2:
-        if st.button("Reset to template", use_container_width=True):
-            st.session_state[f"script_editor_{template_name}"] = default_code
-            st.rerun()
+        st.button(
+            "Reset to template",
+            use_container_width=True,
+            on_click=_reset_script,
+            args=(template_name,),
+        )
     st.info(
         "The editor is a text editor, not a Roblox Luau runtime. Test scripts in "
         "Roblox Studio before using them in a published experience."
