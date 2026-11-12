@@ -2,31 +2,40 @@ import streamlit as st
 
 
 def show_chat():
-    st.title("🤖 StudioX AI")
-    st.caption("Your AI Roblox Development Assistant")
+    st.title("AI Creator")
+    st.caption("Your Roblox development assistant")
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+    if "studiox_messages" not in st.session_state:
+        st.session_state.studiox_messages = []
 
-    for message in st.session_state.messages:
+    if st.button("＋ New conversation", key="new_studiox_chat"):
+        st.session_state.studiox_messages = []
+        st.rerun()
+
+    for message in st.session_state.studiox_messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    prompt = st.chat_input("Ask StudioX anything about Roblox...")
+    prompt = st.chat_input("Ask about Roblox, Luau, game systems...")
+    if not prompt:
+        return
 
-    if prompt:
-        st.session_state.messages.append({
-            "role": "user",
-            "content": prompt
-        })
+    st.session_state.studiox_messages.append(
+        {"role": "user", "content": prompt}
+    )
 
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    with st.chat_message("user"):
+        st.markdown(prompt)
 
-        with st.chat_message("assistant"):
-            st.write("AI connection coming soon!")
+    answer = (
+        "The chat interface is ready. The AI model has not been connected yet. "
+        "In the next step, we'll connect the OpenAI API securely through "
+        "Streamlit Secrets so your API key is never stored in GitHub."
+    )
 
-        st.session_state.messages.append({
-            "role": "assistant",
-            "content": "AI connection coming soon!"
-        })
+    with st.chat_message("assistant"):
+        st.markdown(answer)
+
+    st.session_state.studiox_messages.append(
+        {"role": "assistant", "content": answer}
+    )
