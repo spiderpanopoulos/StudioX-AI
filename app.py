@@ -71,6 +71,13 @@ st.sidebar.divider()
 st.sidebar.caption("StudioX AI · Early development")
 
 
+def _api_configured():
+    try:
+        return bool(st.secrets.get("OPENAI_API_KEY", ""))
+    except Exception:
+        return False
+
+
 if page == "Dashboard":
     st.title("🚀 StudioX AI")
     st.subheader("Your Roblox development workspace.")
@@ -122,8 +129,3 @@ elif page == "Settings":
     st.caption("Do not paste a real key into this example or into a public repository.")
 
 
-def _api_configured():
-    try:
-        return bool(st.secrets.get("OPENAI_API_KEY", ""))
-    except Exception:
-        return False
