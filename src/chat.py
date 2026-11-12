@@ -35,7 +35,7 @@ def _new_conversation():
 
 def _get_api_key():
     try:
-        return st.secrets.get("OPENAI_API_KEY", "")
+        return st.secrets.get("GEMINI_API_KEY", "")
     except Exception:
         return ""
 
@@ -45,27 +45,35 @@ def _generate_answer(messages):
     if not api_key:
         return (
             "The AI connection is not configured yet. Your message is saved in this "
-            "conversation for this browser session. To enable real AI replies, an "
-            "adult can help configure an OpenAI API key in Streamlit Secrets. API "
-            "usage may cost money; do not add billing details or keys without a parent "
-            "or guardian."
+            "conversation for this browser session. A parent or guardian can help "
+            "set up a Gemini API key and add it privately to Streamlit Secrets. "
+            "The free tier has usage limits, and Google may use free-tier content "
+            "to improve its products, so do not send private or sensitive information."
         )
 
     try:
-        from openai import OpenAI
+        from google import genai
+        from google.genai import types
 
-        client = OpenAI(api_key=api_key)
-        response = client.responses.create(
-            model="gpt-6-luna",
-            instructions=SYSTEM_INSTRUCTIONS,
-            input=[
-                {"role": item["role"], "content": item["content"]}
-                for item in messages
-            ],
+        client = genai.Client(api_key=api_key)
+        history = [
+            {
+                "role": "model" if item["role"] == "assistant" else "user",
+                "parts": [{"text": item["content"]}],
+            }
+            for item in messages
+        ]
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=history,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTIONS,
+                max_output_tokens=4096,
+            ),
         )
-        return response.output_text or "I couldn't produce a text response. Please try again."
+        return response.text or "I couldn't produce a text response. Please try again."
     except Exception as exc:
-        st.error("The AI request did not work. Check the API configuration and try again.")
+        st.error("The AI request did not work. Check the Gemini API configuration and try again.")
         return f"Connection error: {type(exc).__name__}. No API key is displayed here."
 
 
