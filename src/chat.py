@@ -20,6 +20,17 @@ def _init_chat_state():
         st.session_state.studiox_active_conversation = "conversation_1"
     if "studiox_next_conversation" not in st.session_state:
         st.session_state.studiox_next_conversation = 2
+    if "studiox_conversation_picker" not in st.session_state:
+        st.session_state.studiox_conversation_picker = st.session_state.studiox_active_conversation
+
+
+def _new_conversation():
+    number = st.session_state.studiox_next_conversation
+    key = f"conversation_{number}"
+    st.session_state.studiox_conversations[key] = {"title": "New conversation", "messages": []}
+    st.session_state.studiox_next_conversation += 1
+    st.session_state.studiox_active_conversation = key
+    st.session_state.studiox_conversation_picker = key
 
 
 def _get_api_key():
@@ -87,6 +98,8 @@ def show_chat():
     st.caption("Your workspace for Roblox ideas, Luau scripts and debugging.")
 
     left, right = st.columns([5, 1])
+    with right:
+        st.button("＋ New", use_container_width=True, on_click=_new_conversation)
     with left:
         labels = {
             key: value["title"]
@@ -96,19 +109,10 @@ def show_chat():
             "Conversation",
             options=list(labels.keys()),
             format_func=lambda key: labels[key],
-            index=list(labels.keys()).index(st.session_state.studiox_active_conversation),
             label_visibility="collapsed",
             key="studiox_conversation_picker",
         )
         st.session_state.studiox_active_conversation = active
-    with right:
-        if st.button("＋ New", use_container_width=True):
-            number = st.session_state.studiox_next_conversation
-            key = f"conversation_{number}"
-            conversations[key] = {"title": "New conversation", "messages": []}
-            st.session_state.studiox_next_conversation += 1
-            st.session_state.studiox_active_conversation = key
-            st.rerun()
 
     current = conversations[st.session_state.studiox_active_conversation]
     if not current["messages"]:
