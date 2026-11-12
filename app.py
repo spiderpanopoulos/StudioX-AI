@@ -73,7 +73,7 @@ st.sidebar.caption("StudioX AI · Early development")
 
 def _api_configured():
     try:
-        return bool(st.secrets.get("OPENAI_API_KEY", ""))
+        return bool(st.secrets.get("GEMINI_API_KEY", ""))
     except Exception:
         return False
 
@@ -114,18 +114,18 @@ elif page == "Settings":
     st.title("⚙️ Settings")
     st.caption("StudioX AI configuration")
     configured = _api_configured()
-    st.write("**OpenAI API:** " + ("Configured" if configured else "Not configured"))
+    st.write("**Gemini API:** " + ("Configured" if configured else "Not configured"))
     st.write("**Chat history:** Stored in the current browser session only.")
     st.write("**App hosting:** Streamlit Community Cloud.")
     st.divider()
     st.subheader("Enable real AI replies")
     st.write(
-        "An adult can add an OPENAI_API_KEY secret in the Streamlit app settings. "
+        "An adult can add an GEMINI_API_KEY secret in the Streamlit app settings. "
         "Never put an API key in GitHub or share it in chat. API usage is billed "
         "separately and may cost money, so ask a parent or guardian to review billing "
         "and usage limits before enabling it."
     )
-    st.code('OPENAI_API_KEY = "your-key-goes-here"', language="toml")
+    st.code('GEMINI_API_KEY = "your-key-goes-here"', language="toml")
     st.caption("Do not paste a real key into this example or into a public repository.")
 
 
