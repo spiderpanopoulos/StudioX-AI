@@ -8,7 +8,7 @@ A Roblox development workspace built with Python and Streamlit.
 
 - **Dashboard:** Session-level conversation and message counts.
 - **Explore:** Original Roblox game concepts and system ideas.
-- **AI Creator:** Multi-conversation chat interface. Real AI replies are optional and require an OpenAI API key in Streamlit Secrets.
+- **AI Creator:** Multi-conversation chat interface powered by the Gemini API when configured.
 - **Script Lab:** Edit and download starter Luau scripts.
 - **Model Lab:** Create and download 3D asset design briefs.
 
@@ -17,11 +17,13 @@ A Roblox development workspace built with Python and Streamlit.
 1. Install dependencies: `pip install -r requirements.txt`
 2. Start the app: `streamlit run app.py`
 
-## Optional OpenAI connection
+## Optional Gemini API connection
 
-Add an `OPENAI_API_KEY` secret in Streamlit's app settings. Never commit API keys to GitHub or paste them into source code. API usage is billed separately and may incur charges. A parent or guardian should review billing and usage limits before enabling paid API access.
+Add a `GEMINI_API_KEY` secret in Streamlit's app settings. Never commit API keys to GitHub, paste them into source code, or share them in chat. The Gemini API offers a free tier with usage limits. A parent or guardian should help with account setup and review the provider's privacy terms before enabling it.
 
-The app uses the OpenAI Responses API. Without the secret, the interface and offline tools remain available, but AI Creator will explain that the AI connection is not configured.
+Google's free-tier terms say submitted content may be used to improve its products. Do not send private or sensitive information to the AI.
+
+Without the secret, the interface and offline tools remain available, but AI Creator will explain that the AI connection is not configured.
 
 ## Important limitations
 
